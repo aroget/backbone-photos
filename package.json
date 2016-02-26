@@ -2,7 +2,7 @@
   "name": "backbone-todos",
   "version": "1.0.0",
   "description": "",
-  "main": "bundle.js",
+  "main": "./app/bundle.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch-js": "watchify -t hbsfy ./app/scripts/app.js -o ./app/bundle.js",
