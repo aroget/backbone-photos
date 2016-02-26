@@ -7,7 +7,7 @@ var Photos = Backbone.Collection.extend({
   model: Photo,
 
   url: '/api/photos'
-  
+
 });
 
 module.exports = Photos;

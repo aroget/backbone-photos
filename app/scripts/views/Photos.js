@@ -3,10 +3,13 @@ var Backbone = require('backbone');
 
 var PhotoModel = require('../models/Photo');
 var PhotosCollection = require('../collections/Photos');
+var PhotosTemplate = require('../../templates/home.hbs');
 
 var Photos = Backbone.View.extend({
 
   tagName: 'ul',
+
+  template: PhotosTemplate,
 
   initialize: function (args) {
     this.photos = new PhotosCollection();
@@ -20,7 +23,9 @@ var Photos = Backbone.View.extend({
   },
 
   render: function() {
-    console.log('photos');
+    $('#app').html(this.template({
+      photos: this.photos.toJSON()
+    }));
     return this;
   }
 

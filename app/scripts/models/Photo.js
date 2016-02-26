@@ -7,10 +7,12 @@ var Photo = Backbone.Model.extend({
    */
   defaults: {
     id: '',
-    user: [],
     name: '',
     description: '',
     image_url: '',
+    format: '',
+    user: [],
+    favorites_count: '',
     liked: ''
   }
 

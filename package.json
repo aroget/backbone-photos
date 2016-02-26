@@ -14,6 +14,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "500px": "^0.5.1",
     "backbone": "^1.2.3",
     "express": "^4.13.4",
     "jquery": "^2.2.1",

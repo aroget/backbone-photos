@@ -1,0 +1,17 @@
+<div class="container">
+  <ul>
+  {{#each photos}}
+    <li class="photo-item" data-js={{id}}>
+      <img src={{image_url}} title={{name}} atl={{description}}/>
+      <div class="photo-item__photometa">
+        <p class="photo-item__favorites">{{favorites_count}}</p>
+        <button class="photo-item__liked">Like</button>
+      </div>
+      <div class="photo-item__usermeta">
+        <img class="photo-item__usermeta__avatar" src={{user.avatars.tiny.https}} title={{user.fullname}} />
+        <a href="#" class="photo-item__user-name">By {{user.fullname}}</a>
+      </div>
+    </li>
+  {{/each}}
+  </ul>
+</div>
