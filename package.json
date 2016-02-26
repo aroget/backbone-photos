@@ -5,13 +5,17 @@
   "main": "bundle.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "watch": "watchify -t hbsfy ./scripts/app.js -o bundle.js",
+    "watch-js": "watchify -t hbsfy ./app/scripts/app.js -o ./app/bundle.js",
+    "watch-css": "nodemon -e scss -x \"npm run build-css\"",
+    "build-css": "node-sass --include-path scss ./app/styles/styles.scss ./app/styles.css",
+    "watch": "npm run watch-js & npm run watch-css",
     "start": "node server.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "backbone": "^1.2.3",
+    "express": "^4.13.4",
     "jquery": "^2.2.1",
     "underscore": "^1.8.3"
   },
