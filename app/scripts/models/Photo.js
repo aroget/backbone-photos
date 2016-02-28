@@ -13,7 +13,8 @@ var Photo = Backbone.Model.extend({
     format: '',
     user: [],
     favorites_count: '',
-    liked: ''
+    isLiked: false,
+    showDetails: false,
   }
 
 });

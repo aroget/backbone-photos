@@ -18,7 +18,8 @@ var Photos = Backbone.Collection.extend({
 
   model: Photo,
 
-  url: '/api/photos'
+  // url: '/api/photos',
+  url: '../../mock/photos.js'
 
 });
 
@@ -40,7 +41,8 @@ var Photo = Backbone.Model.extend({
     format: '',
     user: [],
     favorites_count: '',
-    liked: ''
+    isLiked: false,
+    showDetails: false,
   }
 
 });
@@ -81,9 +83,37 @@ var PhotosTemplate = require('../../templates/home.hbs');
 
 var Photos = Backbone.View.extend({
 
-  tagName: 'ul',
+  el: '#app',
 
   template: PhotosTemplate,
+
+  events: {
+    'click .photo-item__liked' : 'triggerLiked'
+  },
+
+  isLiked: function (model) {
+    return model.get('isLiked');
+  },
+
+  triggerLiked: function(e) {
+    e.preventDefault();
+    var id = $(e.target).attr('data-js');
+    var item = this.photos.get(id);
+    var favs = item.get('favorites_count');
+
+    if (!this.isLiked(item)) {
+      item.set({
+        'isLiked' : !item.get('isLiked'),
+        'favorites_count' : favs + 1
+      });
+    }
+    else {
+      item.set({
+        'favorites_count' : favs
+      });
+    }
+
+  },
 
   initialize: function (args) {
     this.photos = new PhotosCollection();
@@ -97,7 +127,7 @@ var Photos = Backbone.View.extend({
   },
 
   render: function() {
-    $('#app').html(this.template({
+    this.$el.html(this.template({
       photos: this.photos.toJSON()
     }));
     return this;
@@ -113,9 +143,7 @@ var HandlebarsCompiler = require('hbsfy/runtime');
 module.exports = HandlebarsCompiler.template({"1":function(container,depth0,helpers,partials,data) {
     var stack1, helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression, alias5=container.lambda;
 
-  return "    <li class=\"photo-item\" data-js="
-    + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
-    + ">\n      <img src="
+  return "    <li class=\"photo-item\">\n      <img src="
     + alias4(((helper = (helper = helpers.image_url || (depth0 != null ? depth0.image_url : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"image_url","hash":{},"data":data}) : helper)))
     + " title="
     + alias4(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"name","hash":{},"data":data}) : helper)))
@@ -123,7 +151,9 @@ module.exports = HandlebarsCompiler.template({"1":function(container,depth0,help
     + alias4(((helper = (helper = helpers.description || (depth0 != null ? depth0.description : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"description","hash":{},"data":data}) : helper)))
     + "/>\n      <div class=\"photo-item__photometa\">\n        <p class=\"photo-item__favorites\">"
     + alias4(((helper = (helper = helpers.favorites_count || (depth0 != null ? depth0.favorites_count : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"favorites_count","hash":{},"data":data}) : helper)))
-    + "</p>\n        <button class=\"photo-item__liked\">Like</button>\n      </div>\n      <div class=\"photo-item__usermeta\">\n        <img class=\"photo-item__usermeta__avatar\" src="
+    + "</p>\n        <button class=\"photo-item__liked\" data-js="
+    + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
+    + ">Like</button>\n      </div>\n      <div class=\"photo-item__usermeta\">\n        <img class=\"photo-item__usermeta__avatar\" src="
     + alias4(alias5(((stack1 = ((stack1 = ((stack1 = (depth0 != null ? depth0.user : depth0)) != null ? stack1.avatars : stack1)) != null ? stack1.tiny : stack1)) != null ? stack1.https : stack1), depth0))
     + " title="
     + alias4(alias5(((stack1 = (depth0 != null ? depth0.user : depth0)) != null ? stack1.fullname : stack1), depth0))
