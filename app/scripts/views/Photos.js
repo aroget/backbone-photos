@@ -39,6 +39,11 @@ var Photos = Backbone.View.extend({
 
   },
 
+  infiniteScroll: function(page) {
+    console.log(this.photos);
+    this.photos.fetch({data: {page: page}});
+  },
+
   initialize: function (args) {
     this.photos = new PhotosCollection();
 
@@ -47,7 +52,20 @@ var Photos = Backbone.View.extend({
     this.listenTo(this.photos, 'change', this.render);
     this.listenTo(this.photos, 'remove', this.render);
 
-    this.photos.fetch();
+    $(window).scroll(function() {
+      var page = this.photos.page;
+      if ((window.innerHeight + window.scrollY) == document.body.offsetHeight) {
+        page++;
+        this.photos.page = page;
+        setTimeout(this.infiniteScroll(page), 5000);
+      }
+    }.bind(this))
+
+    this.photos.fetch(
+      { data:
+        { page: this.photos.page }
+      }
+    );
   },
 
   render: function() {

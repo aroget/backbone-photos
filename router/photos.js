@@ -7,7 +7,8 @@ var API500px = require('500px');
 var api500px = new API500px(constants.API_KEY);
 
 router.get('/', function(req, res, next) {
-  api500px.photos.getPopular({'sort': 'created_at', 'rpp': '30', 'image_size' : 6},  function(error, results) {
+
+  api500px.photos.getPopular({'sort': 'created_at', 'rpp': '10', 'image_size' : 6, 'page' : req.query.page},  function(error, results) {
     if (error) {
         console.log(error);
     } else {

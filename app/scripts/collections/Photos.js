@@ -6,8 +6,12 @@ var Photos = Backbone.Collection.extend({
 
   model: Photo,
 
-  // url: '/api/photos',
-  url: '../../mock/photos.js'
+  initialize: function() {
+    this.page = 1
+  },
+
+  url: '/api/photos',
+  // url: '../../mock/photos.js'
 
 });
 
