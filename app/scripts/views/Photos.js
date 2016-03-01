@@ -5,6 +5,8 @@ var PhotoModel = require('../models/Photo');
 var PhotosCollection = require('../collections/Photos');
 var PhotosTemplate = require('../../templates/home.hbs');
 
+var DateFormatter = require('../helpers/format-date');
+
 var Photos = Backbone.View.extend({
 
   el: '#app',
@@ -12,7 +14,31 @@ var Photos = Backbone.View.extend({
   template: PhotosTemplate,
 
   events: {
-    'click .photo-item__liked' : 'triggerLiked'
+    'click .photo-item__liked' : 'triggerLiked',
+    'click .getDetails'        : 'getDetails',
+    'click .close-modal'       : 'closeModal'
+  },
+
+  getDetails: function(e) {
+    e.preventDefault();
+    var id = $(e.target).attr('data-js');
+    var item = this.photos.get(id);
+    var showDetails = item.get('show_details');
+
+    item.set({
+      'showDetails' : !item.get('showDetails')
+    });
+  },
+
+  closeModal: function(e) {
+    e.preventDefault();
+    var id = $(e.target).attr('data-js');
+    var item = this.photos.get(id);
+    var showDetails = item.get('show_details');
+
+    item.set({
+      'showDetails' : !item.get('showDetails')
+    });
   },
 
   isLiked: function (model) {
@@ -30,6 +56,7 @@ var Photos = Backbone.View.extend({
         'isLiked' : !item.get('isLiked'),
         'favorites_count' : favs + 1
       });
+      // $(e.target).addClass('isLiked');
     }
     else {
       item.set({
@@ -39,9 +66,15 @@ var Photos = Backbone.View.extend({
 
   },
 
-  infiniteScroll: function(page) {
-    console.log(this.photos);
-    this.photos.fetch({data: {page: page}});
+  loadNewImages: function(page) {
+    var newImages = new PhotosCollection();
+    var promise = newImages.fetch({data: {page: page}});
+
+    var images = promise.then(function(data) {
+      this.photos.add(data);
+    }.bind(this));
+
+    this.photos.isFetching = false;
   },
 
   initialize: function (args) {
@@ -54,10 +87,11 @@ var Photos = Backbone.View.extend({
 
     $(window).scroll(function() {
       var page = this.photos.page;
-      if ((window.innerHeight + window.scrollY) == document.body.offsetHeight) {
+      if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight && !this.photos.isFetching) {
         page++;
         this.photos.page = page;
-        setTimeout(this.infiniteScroll(page), 5000);
+        this.photos.isFetching = true;
+        this.loadNewImages(page);
       }
     }.bind(this))
 

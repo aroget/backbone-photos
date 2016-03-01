@@ -20,9 +20,17 @@ router.get('/', function(req, res, next) {
           id: item.id,
           name: item.name,
           description: item.description,
+          taken_at: item.taken_at,
           image_url: item.image_url,
           format: item.image_format,
           user: item.user,
+          details: {
+            camera: item.camera,
+            lens: item.lens,
+            iso: item.iso,
+            shutter_speed: item.shutter_speed,
+            aperture: item.aperture,
+          },
           favorites_count: item.favorites_count,
         });
       });

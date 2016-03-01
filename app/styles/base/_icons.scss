@@ -1,0 +1,68 @@
+$fonts_dir: '../../fonts/';
+.svg-icon {
+  height: 25px;
+  width: 25px;
+  display: inline-block;
+  margin: 0 10px;
+
+  &.svg-icon__full-heart {
+    background: url($fonts_dir + 'svg-full-heart.svg');
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  &.svg-icon__close {
+    background: url($fonts_dir + 'svg-close.svg');
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  &.svg-icon__hamburger {
+    background: url($fonts_dir + 'svg-hamburger.svg');
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  &.svg-icon__camera {
+    background: url($fonts_dir + 'svg-camera.svg');
+  }
+
+  &.svg-icon__empty-heart {
+    background: url($fonts_dir + 'svg-empty-heart.svg');
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  &.svg-icon-more {
+    background: url($fonts_dir + 'svg-more.svg'), rgba(255, 255, 255, .5);
+    top: 80px;
+    left: 20px;
+    z-index: 2;
+    position: relative;
+    border-radius: 100%;
+    width: 40px;
+    height: 40px;
+    background-repeat: no-repeat;
+    background-position: center center;
+
+    &.isOpen {
+      display: none;
+    }
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  &.svg-icon__plus-one {
+    background: url($fonts_dir + 'svg-plus-one.svg');
+  }
+}

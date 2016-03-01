@@ -1,16 +1,43 @@
 <div class="container">
   <ul>
   {{#each photos}}
-    <li class="photo-item">
+    <li class="photo-item twelve columns">
+      <span class="getDetails svg-icon svg-icon-more" data-js={{id}}></span>
       <img src={{image_url}} title={{name}} atl={{description}}/>
-      <div class="photo-item__photometa">
-        <p class="photo-item__favorites">{{favorites_count}}</p>
-        <button class="photo-item__liked" data-js={{id}}>Like</button>
+      <div class="photo-item__photometa u-pull-right">
+        {{#if this.isLiked}}
+          <p class="photo-item__favorites">{{favorites_count}}</p>
+          <span class="svg-icon svg-icon__full-heart"></span>
+        {{else}}
+          <span class="svg-icon svg-icon__empty-heart photo-item__liked" data-js={{id}}></span>
+        {{/if}}
       </div>
-      <div class="photo-item__usermeta">
+      <div class="photo-item__usermeta u-pull-left">
         <img class="photo-item__usermeta__avatar" src={{user.avatars.tiny.https}} title={{user.fullname}} />
-        <a href="#" class="photo-item__user-name">By {{user.fullname}}</a>
+        <span>
+          {{name}} - By <a href="#" class="photo-item__user-name">{{user.fullname}}</a>
+        </span>
       </div>
+      {{#if showDetails}}
+        <div class="photo-item__details u-cf twelve columns">
+          <span class="close-modal svg-icon svg-icon__close" data-js={{id}}></span>
+          <span class="photo-item__details--logo svg-icon svg-icon__camera"></span>
+          <ul class="eight columns offset-by-two column">
+            <li class="six-50 columns">
+              <p class="photo-item__details--taken-at">Taken On: {{format-date taken_at}}</p>
+            </li>
+            {{#each details}}
+              {{#if this}}
+                <li class="six-50 columns">
+                  <p>
+                    <span>{{@key}}:</span> {{this}}
+                  </p>
+                </li>
+              {{/if}}
+            {{/each}}
+          </ul>
+        </div>
+      {{/if}}
     </li>
   {{/each}}
   </ul>

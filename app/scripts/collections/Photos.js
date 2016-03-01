@@ -7,7 +7,8 @@ var Photos = Backbone.Collection.extend({
   model: Photo,
 
   initialize: function() {
-    this.page = 1
+    this.page = 1,
+    this.isFetching = false
   },
 
   url: '/api/photos',
